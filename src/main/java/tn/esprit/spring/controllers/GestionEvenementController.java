@@ -77,7 +77,8 @@ import tn.esprit.spring.service.interfaces.IParticipantService;
 		}
 		//Question 5
 		//http://localhost:8082/GestionEvenement/Evenement/retrieveLogistiquesDates/2023-01-01/2023-06-01
-		@GetMapping("/getParticipantsLogis")
+		//@GetMapping("/getParticipantsLogis")
+		@GetMapping("/getparticipantslogis")
 		public List <Participant> getParReservLogis ( )
 		{
 			return partServ.getParReservLogis();
