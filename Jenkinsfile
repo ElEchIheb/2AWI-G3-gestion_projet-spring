@@ -17,14 +17,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo '⚙️ Compilation du projet Spring Boot...'
-                sh './mvnw clean package -DskipTests'
+                bat 'mvnw.cmd clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
                 echo '🧪 Exécution des tests unitaires...'
-                sh './mvnw test'
+                bat 'mvnw.cmd test'
             }
         }
 
@@ -38,7 +38,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo '🚀 Déploiement local du JAR...'
-                sh 'nohup java -jar target/*.jar &'
+                bat 'start /B java -jar target\\*.jar'
             }
         }
     }
