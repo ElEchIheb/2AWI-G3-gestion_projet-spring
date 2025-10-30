@@ -1,6 +1,7 @@
 # Dockerfile
-# Utilise OpenJDK 21
-FROM eclipse-temurin:21-jdk-jammy
+
+# Utilise OpenJDK 17 (LTS)
+FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
