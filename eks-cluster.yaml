@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "EKS Cluster + Node Group - Lab voclabs compatible (no IAM rights needed)"
+
+Parameters:
+  Subnet1:
+    Type: String
+    Default: subnet-071f7609b479124ba
+  Subnet2:
+    Type: String
+    Default: subnet-049cd7ce0fa1a9518
+
+Resources:
+  EKSClusterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EKSClusterRole-G3
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+
+  NodeInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EKSNodeRole-G3
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+
+  MyEKSCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      Name: mykubernetes-g3
+      Version: "1.30"
+      RoleArn: !GetAtt EKSClusterRole.Arn
+      ResourcesVpcConfig:
+        SubnetIds:
+          - !Ref Subnet1
+          - !Ref Subnet2
+        EndpointPublicAccess: true
+        EndpointPrivateAccess: false
+        PublicAccessCidrs:
+          - 0.0.0.0/0
+
+  MyNodeGroup:
+    Type: AWS::EKS::Nodegroup
+    DependsOn: MyEKSCluster
+    Properties:
+      ClusterName: !Ref MyEKSCluster
+      NodegroupName: workers-g3
+      NodeRole: !GetAtt NodeInstanceRole.Arn
+      Subnets:
+        - !Ref Subnet1
+        - !Ref Subnet2
+      InstanceTypes:
+        - t3.medium
+      ScalingConfig:
+        DesiredSize: 2
+        MinSize: 1
+        MaxSize: 3
+      CapacityType: SPOT
+
+Outputs:
+  ClusterName:
+    Description: Nom du cluster EKS
+    Value: !Ref MyEKSCluster
+  ClusterEndpoint:
+    Description: Endpoint du cluster
+    Value: !GetAtt MyEKSCluster.Endpoint
