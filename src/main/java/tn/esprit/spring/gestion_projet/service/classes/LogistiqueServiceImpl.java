@@ -1,23 +1,10 @@
-package tn.esprit.spring.service.classes;
+package tn.esprit.spring.gestion_projet.service.classes;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import tn.esprit.spring.gestion_projet.service.interfaces.ILogistiqueService;
 
-import lombok.extern.slf4j.Slf4j;
-import tn.esprit.spring.persistence.entities.Evenement;
-import tn.esprit.spring.persistence.entities.Logistique;
-import tn.esprit.spring.persistence.repositories.EvenementRepository;
-import tn.esprit.spring.persistence.repositories.LogistiqueRepository;
-import tn.esprit.spring.service.interfaces.ILogistiqueService;
-
-@Service
-@Slf4j
 public class LogistiqueServiceImpl implements ILogistiqueService {
-	@Autowired
+/*	@Autowired
 	EvenementRepository evenRep;
 	@Autowired
 	LogistiqueRepository logistiqueRepository;
@@ -50,7 +37,10 @@ public class LogistiqueServiceImpl implements ILogistiqueService {
 			allLogists.add(l);
 		 }
 }
-		return allLogists;}}
+		return allLogists;}
+ */
+		}
+
 	
 	
 

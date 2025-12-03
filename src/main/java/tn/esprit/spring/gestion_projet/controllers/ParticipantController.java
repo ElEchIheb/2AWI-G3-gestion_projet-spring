@@ -1,4 +1,4 @@
-package tn.esprit.spring.controllers;
+package tn.esprit.spring.gestion_projet.controllers;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,18 +6,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import tn.esprit.spring.persistence.entities.Participant;
-import tn.esprit.spring.persistence.entities.Tache;
-import tn.esprit.spring.service.interfaces.IParticipantService;
+import tn.esprit.spring.gestion_projet.persistence.entities.Participant;
+import tn.esprit.spring.gestion_projet.service.interfaces.IParticipantService;
+
 
 @RestController
 @RequestMapping("/api/participants")
 public class ParticipantController {
 
-    @Autowired
-    private IParticipantService participantService;
+    private final IParticipantService participantService;
 
-    @PostMapping
+    // constructeur pour Spring
+    public ParticipantController(IParticipantService participantService) {
+        this.participantService = participantService;
+    }
+
+/*    @PostMapping
     public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant) {
         Participant savedParticipant = participantService.ajouterParticipant(participant);
         System.out.println("cet endpoint est créé par Abdelkader");
@@ -80,4 +84,42 @@ public class ParticipantController {
         System.out.println("cet endpoint est créé par Abdelkader");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+ */
+
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Participant p) {
+        return ResponseEntity.ok( participantService.create(p) );
+    }
+
+    @GetMapping
+    public List<Participant> getAll() {
+        return participantService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOne(@PathVariable int id) {
+        Participant p = participantService.getById(id);
+        if (p == null)
+            return ResponseEntity.status(404).body("Participant introuvable !");
+        return ResponseEntity.ok(p);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody Participant updated) {
+        if (participantService.getById(id) == null)
+            return ResponseEntity.status(404).body("Participant introuvable !");
+        return ResponseEntity.ok( participantService.update(id, updated) );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        boolean removed = participantService.delete(id);
+        if (!removed)
+            return ResponseEntity.status(404).body("Participant introuvable !");
+        return ResponseEntity.ok("Participant supprimé avec succès !");
+    }
+
+
 }

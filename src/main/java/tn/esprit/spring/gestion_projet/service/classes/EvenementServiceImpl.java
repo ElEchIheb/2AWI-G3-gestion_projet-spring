@@ -1,21 +1,10 @@
-package tn.esprit.spring.service.classes;
+package tn.esprit.spring.gestion_projet.service.classes;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import tn.esprit.spring.gestion_projet.service.interfaces.IEvenemntService;
 
-import lombok.extern.slf4j.Slf4j;
-import tn.esprit.spring.persistence.entities.Evenement;
-import tn.esprit.spring.persistence.entities.Participant;
-import tn.esprit.spring.persistence.repositories.EvenementRepository;
-import tn.esprit.spring.persistence.repositories.ParticipantRepository;
-import tn.esprit.spring.service.interfaces.IEvenemntService;
-@Service
-@Slf4j
-public class EvenementServiceImpl implements IEvenemntService{
-@Autowired
+public class EvenementServiceImpl implements IEvenemntService {
+/*@Autowired
 ParticipantRepository partRep;
 @Autowired
 EvenementRepository evenRep ;
@@ -46,6 +35,8 @@ EvenementRepository evenRep ;
 			evenRep.save(e);
 			return e;
 		}
+
+ */
 	}
 	
 	

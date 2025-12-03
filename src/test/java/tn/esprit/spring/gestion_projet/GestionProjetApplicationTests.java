@@ -1,4 +1,4 @@
-package tn.esprit.spring;
+package tn.esprit.spring.gestion_projet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
